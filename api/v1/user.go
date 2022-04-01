@@ -30,7 +30,7 @@ func AddUser(context *gin.Context) {
 }
 
 // 查询用户列表
-func GetUserList(context *gin.Context) {
+func GetUsers(context *gin.Context) {
 	pageSize, _ := strconv.Atoi(context.Query("pageSize"))
 	pageNum, _ := strconv.Atoi(context.Query("pageNum"))
 
@@ -54,10 +54,7 @@ func GetUserList(context *gin.Context) {
 // 编辑用户
 func UpdateUser(context *gin.Context) {
 	var user model.User
-	err := context.ShouldBindJSON(&user)
-	if err != nil {
-		return
-	}
+	_ = context.ShouldBindJSON(&user)
 	id, _ := strconv.Atoi(context.Param("id"))
 	code := model.CheckUser(uint(id), user.Username)
 	if code == errormsg.SUCCESS {

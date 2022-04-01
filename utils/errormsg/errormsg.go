@@ -15,6 +15,7 @@ const (
 	// code = 2000...  文章模块的错误
 
 	// code = 3000...  分类模块的错误
+	ErrorCategoryExists = 3001 // 分类已经存在
 
 )
 
@@ -28,6 +29,7 @@ var codeMsg = map[int]string{
 	ErrorUserTokenExpired:   "用户token过期",
 	ErrorUserTokenWrong:     "用户token错误",
 	ErrorUserTokenTypeWrong: "用户token类型错误",
+	ErrorCategoryExists:     "分类已经存在",
 }
 
 func GetErrorMsg(code int) string {

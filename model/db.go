@@ -8,12 +8,10 @@ import (
 	"time"
 )
 
-var (
-	db  *gorm.DB
-	err error
-)
+var db *gorm.DB
 
 func InitDB() {
+	var err error
 	db, err = gorm.Open(utils.Db, fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
 		utils.DbUser,
 		utils.DbPassword,
