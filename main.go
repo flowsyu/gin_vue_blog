@@ -1,7 +1,7 @@
 package main
 
 import (
-	"gin_vue_blog/modle"
+	modle "gin_vue_blog/model"
 	"gin_vue_blog/routers"
 )
 

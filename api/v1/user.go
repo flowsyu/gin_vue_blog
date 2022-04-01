@@ -1,33 +1,82 @@
 package v1
 
-import "github.com/gin-gonic/gin"
+import (
+	"gin_vue_blog/model"
+	"gin_vue_blog/utils/errormsg"
+	"net/http"
+	"strconv"
 
-// 查询用户是否存在
-func UserExist() {
-	// Todo
-}
+	"github.com/gin-gonic/gin"
+)
 
 // 添加用户
 func AddUser(context *gin.Context) {
-	// Todo  添加用户
-}
-
-// 查询单个用户
-func GetUser() {
-	// Todo  查询单个用户
+	var user model.User
+	err := context.ShouldBindJSON(&user)
+	if err != nil {
+		return
+	}
+	code := model.CheckUser(user.ID, user.Username)
+	if code == errormsg.SUCCESS {
+		model.CreateUser(&user)
+	} else {
+		context.Abort()
+	}
+	context.JSON(http.StatusOK, gin.H{
+		"code": code,
+		"msg":  errormsg.GetErrorMsg(code),
+		"data": user,
+	})
 }
 
 // 查询用户列表
 func GetUserList(context *gin.Context) {
-	// Todo  查询用户列表
+	pageSize, _ := strconv.Atoi(context.Query("pageSize"))
+	pageNum, _ := strconv.Atoi(context.Query("pageNum"))
+
+	if pageSize == 0 {
+		pageSize = -1
+	}
+
+	if pageNum == 0 {
+		pageNum = -1
+	}
+
+	data := model.GetUsers(pageSize, pageNum)
+	code := errormsg.SUCCESS
+	context.JSON(http.StatusOK, gin.H{
+		"code": code,
+		"msg":  errormsg.GetErrorMsg(code),
+		"data": data,
+	})
 }
 
 // 编辑用户
-func EditUser(context *gin.Context) {
-	// Todo  编辑用户
+func UpdateUser(context *gin.Context) {
+	var user model.User
+	err := context.ShouldBindJSON(&user)
+	if err != nil {
+		return
+	}
+	id, _ := strconv.Atoi(context.Param("id"))
+	code := model.CheckUser(uint(id), user.Username)
+	if code == errormsg.SUCCESS {
+		model.UpdateUser(uint(id), &user)
+	} else {
+		context.Abort()
+	}
+	context.JSON(http.StatusOK, gin.H{
+		"code": code,
+		"msg":  errormsg.GetErrorMsg(code),
+	})
 }
 
-// 删除用户
+// 删除用户(软删除)
 func DeleteUser(context *gin.Context) {
-	// Todo  删除用户
+	id, _ := strconv.Atoi(context.Param("id"))
+	code := model.DeleteUser(id)
+	context.JSON(http.StatusOK, gin.H{
+		"code": code,
+		"msg":  errormsg.GetErrorMsg(code),
+	})
 }
