@@ -18,7 +18,7 @@ func AddUser(context *gin.Context) {
 	}
 	code := model.CheckUser(user.ID, user.Username)
 	if code == errormsg.SUCCESS {
-		model.CreateUser(&user)
+		model.AddUser(&user)
 	} else {
 		context.Abort()
 	}
