@@ -28,7 +28,7 @@ func CheckUser(id uint, username string) int {
 }
 
 // 新增用户
-func CreateUser(user *User) int {
+func AddUser(user *User) int {
 	user.Password = ScyptPassword(user.Password)
 	err := db.Create(user).Error
 	if err != nil {

@@ -1,0 +1,41 @@
+GET http://localhost:3000/api/v1/article/info/1
+Accept: application/json
+
+###
+
+
+GET http://localhost:3000/api/v1/articles?pageSize=1&pageNum=1
+Accept: application/json
+
+###
+PUT http://localhost:3000/api/v1/article/1
+Content-Type: application/json
+
+{
+  "title": "Test Article666",
+  "cid": 2,
+  "desc": "Test Article Description666",
+  "content": "Test Article Content666",
+  "img": "Test Article Image666"
+}
+
+###
+
+
+DELETE http://localhost:3000/api/v1/article/2
+Content-Type: application/json
+
+###
+
+POST http://localhost:3000/api/v1/article/add
+Content-Type: application/json
+
+{
+  "title": "Test Article3",
+  "cid": 3,
+  "desc": "Test Article Description3",
+  "content": "Test Article Content3",
+  "img": "Test Article Image3"
+}
+
+###
