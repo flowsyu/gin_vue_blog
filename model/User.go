@@ -81,3 +81,20 @@ func ScyptPassword(password string) string {
 	fpw := base64.StdEncoding.EncodeToString(HashPw)
 	return fpw
 }
+
+// 登陆验证
+func Login(username, password string) int {
+	var user User
+	db.Where("username = ?", username).First(&user)
+
+	if user.ID == 0 {
+		return errormsg.ErrorUserNotExists
+	}
+	if ScyptPassword(password) != user.Password {
+		return errormsg.ErrorUserPasswordWrong
+	}
+	if user.Role != 0 {
+		return errormsg.ErrorUserNoRight
+	}
+	return errormsg.SUCCESS
+}

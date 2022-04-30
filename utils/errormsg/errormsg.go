@@ -12,6 +12,7 @@ const (
 	ErrorUserTokenExpired   = 1005 // 用户token过期
 	ErrorUserTokenWrong     = 1006 // 用户token错误
 	ErrorUserTokenTypeWrong = 1007 // 用户token类型错误
+	ErrorUserNoRight        = 1008 // 用户没有权限
 	// code = 2000...  文章模块的错误
 	ErrorArticleNotExists = 2001 // 文章不存在
 
@@ -34,6 +35,7 @@ var codeMsg = map[int]string{
 	ErrorCategoryExists:     "分类已经存在",
 	ErrorCategoryNotExists:  "分类不存在",
 	ErrorArticleNotExists:   "文章不存在",
+	ErrorUserNoRight:        "用户没有权限",
 }
 
 func GetErrorMsg(code int) string {
