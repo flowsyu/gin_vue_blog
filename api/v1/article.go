@@ -35,10 +35,11 @@ func GetArticles(context *gin.Context) {
 		pageNum = -1
 	}
 
-	articles, code := modle.GetArticles(pageSize, pageNum)
+	articles, code, total := modle.GetArticles(pageSize, pageNum)
 	context.JSON(code, gin.H{
 		"code":    code,
 		"data":    articles,
+		"total":   total,
 		"message": errormsg.GetErrorMsg(code),
 	})
 }
@@ -57,10 +58,11 @@ func GetCateArt(context *gin.Context) {
 		pageNum = -1
 	}
 
-	articles, code := modle.GetCateArt(uint(cateId), pageSize, pageNum)
+	articles, code, total := modle.GetCateArt(uint(cateId), pageSize, pageNum)
 	context.JSON(code, gin.H{
 		"code":    code,
 		"data":    articles,
+		"total":   total,
 		"message": errormsg.GetErrorMsg(code),
 	})
 }

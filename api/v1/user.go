@@ -3,6 +3,7 @@ package v1
 import (
 	"gin_vue_blog/model"
 	"gin_vue_blog/utils/errormsg"
+	"gin_vue_blog/utils/validator"
 	"net/http"
 	"strconv"
 
@@ -16,7 +17,16 @@ func AddUser(context *gin.Context) {
 	if err != nil {
 		return
 	}
-	code := model.CheckUser(user.ID, user.Username)
+	msg, code := validator.Validate(&user)
+	if code != errormsg.SUCCESS {
+		context.JSON(http.StatusOK, gin.H{
+			"code": code,
+			"msg":  msg,
+		})
+		return
+	}
+
+	code = model.CheckUser(user.ID, user.Username)
 	if code == errormsg.SUCCESS {
 		model.AddUser(&user)
 	} else {
@@ -25,7 +35,6 @@ func AddUser(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{
 		"code": code,
 		"msg":  errormsg.GetErrorMsg(code),
-		"data": user,
 	})
 }
 
@@ -42,12 +51,13 @@ func GetUsers(context *gin.Context) {
 		pageNum = -1
 	}
 
-	data := model.GetUsers(pageSize, pageNum)
+	data, total := model.GetUsers(pageSize, pageNum)
 	code := errormsg.SUCCESS
 	context.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"msg":  errormsg.GetErrorMsg(code),
-		"data": data,
+		"code":  code,
+		"msg":   errormsg.GetErrorMsg(code),
+		"total": total,
+		"data":  data,
 	})
 }
 

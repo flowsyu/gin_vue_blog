@@ -16,13 +16,13 @@ Content-Type: application/json
 
 
 ###
-POST http://localhost:3000/api/v1/user/add
+POST http://localhost:3000/api/v1/user/ad d
 Content-Type: application/json
 
 {
-  "username": "yudi5",
-  "password": "yudi5",
-  "role": 0
+  "username": "hh",
+  "password": "hjjgjhgj",
+  "role": 1
 }
 
 ###
